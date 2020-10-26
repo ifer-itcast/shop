@@ -1,21 +1,30 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import './plugins/element.js'
+// import './plugins/element.js'
 // 图标样式
 import './assets/fonts/iconfont.css'
 // 全局样式
 import './assets/css/global.css'
 import TreeTable from 'vue-table-with-tree-grid'
 import VueQuillEditor from 'vue-quill-editor'
-import 'quill/dist/quill.core.css' // import styles
-import 'quill/dist/quill.snow.css' // for snow theme
-import 'quill/dist/quill.bubble.css' // for bubble theme
+// import 'quill/dist/quill.core.css' // import styles
+// import 'quill/dist/quill.snow.css' // for snow theme
+// import 'quill/dist/quill.bubble.css' // for bubble theme
+
+import NProgress from 'nprogress'
+// import 'nprogress/nprogress.css'
+
 // 挂载 axios 到 Vue 原型
 import axios from 'axios'
 axios.defaults.baseURL = 'http://127.0.0.1:8888/api/private/v1/'
 axios.interceptors.request.use(config => {
+  NProgress.start()
   config.headers.Authorization = window.sessionStorage.getItem('token')
+  return config
+})
+axios.interceptors.response.use(config => {
+  NProgress.done()
   return config
 })
 Vue.prototype.$http = axios
